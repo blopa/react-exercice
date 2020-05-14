@@ -1,7 +1,7 @@
 import debounce from 'lodash.debounce';
 
 const API_URL = 'https://api.itbook.store/1.0/search';
-const CORS_EVERYWHERE = 'https://cors-anywhere.herokuapp.com/';
+const CORS_EVERYWHERE = 'https://cors-anywhere.herokuapp.com';
 
 function searchBooks(searchTerm, useCorsEverywhere = true) {
     let url = `${API_URL}/${searchTerm}`;

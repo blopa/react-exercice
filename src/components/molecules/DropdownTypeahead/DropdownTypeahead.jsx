@@ -2,6 +2,7 @@ import React, { Fragment, useState, useEffect } from 'react';
 import PropTypes from 'prop-types';
 import ResultsLi from '../../atoms/ResultsLi';
 import SearchInput from '../../atoms/SearchInput';
+import Button from '../../atoms/Button';
 import searchBooks from '../../../stories/utils/searchBooks';
 
 const propTypes = {
@@ -64,6 +65,13 @@ export default function DropdownTypeahead({ className = '' }) {
                 value={searchValue}
                 onChange={onChange}
                 className={className}
+            />
+            <Button
+                text="Clear"
+                onClick={() => {
+                    setSearchValue('');
+                    setListData([]);
+                }}
             />
             <ResultsLi
                 listData={listData}

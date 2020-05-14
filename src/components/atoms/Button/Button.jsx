@@ -2,19 +2,23 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const propTypes = {
-    onChange: PropTypes.func.isRequired,
-    className: PropTypes.string.isRequired,
+    onClick: PropTypes.func.isRequired,
+    className: PropTypes.string,
+    text: PropTypes.string.isRequired,
 };
 
 export default function Input({
-    onChange,
-    className,
+    onClick,
+    className = '',
+    text,
 }) {
     return (
         <button
-            onChange={onChange}
+            onClick={onClick}
             className={className}
-        />
+        >
+            {text}
+        </button>
     );
 }
 

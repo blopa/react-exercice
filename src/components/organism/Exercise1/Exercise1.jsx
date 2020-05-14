@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import DropdownTypeahead from '../../molecules/DropdownTypeahead';
 
 const propTypes = {
     value: PropTypes.string.isRequired,
@@ -13,7 +14,7 @@ export default function Input({
     className,
 }) {
     return (
-        <input
+        <DropdownTypeahead
             value={value}
             onChange={onChange}
             className={className}

@@ -8,44 +8,42 @@ const propTypes = {
     className: PropTypes.string,
 };
 
-function useKeyPress(targetKey) {
-    // State for keeping track of whether key is pressed
-    const [keyPressed, setKeyPressed] = useState(false);
-
-    // If pressed key is our target key then set to true
-    function downHandler({ key }) {
-        if (key === targetKey) {
-            setKeyPressed(true);
-        }
-    }
-
-    // If released key is our target key then set to false
-    const upHandler = ({ key }) => {
-        if (key === targetKey) {
-            setKeyPressed(false);
-        }
-    };
-
-    // Add event listeners
-    useEffect(() => {
-        window.addEventListener('keydown', downHandler);
-        window.addEventListener('keyup', upHandler);
-        // Remove event listeners on cleanup
-        return () => {
-            window.removeEventListener('keydown', downHandler);
-            window.removeEventListener('keyup', upHandler);
-        };
-    }, []); // Empty array ensures that effect is only run on mount and unmount
-
-    return keyPressed;
-}
-
 export default function DropdownTypeahead({ className = '' }) {
     const [searchValue, setSearchValue] = useState([]);
     const [listData, setListData] = useState([]);
+    const [selectedValueIndex, setSelectedValueIndex] = useState(null);
 
-    const ArrowUpPress = useKeyPress('ArrowUp');
-    const ArrowDownPress = useKeyPress('ArrowDown');
+    const downHandler = ({ key }) => {
+        if (key === 'ArrowDown') {
+            let newValue = selectedValueIndex === null ? 0 : selectedValueIndex + 1;
+            if (newValue > listData.length - 1) {
+                newValue = 0;
+            }
+
+            setSelectedValueIndex(newValue);
+        }
+
+        if (key === 'ArrowUp') {
+            let newValue = selectedValueIndex === null ? 0 : selectedValueIndex - 1;
+            if (newValue < 0) {
+                newValue = listData.length - 1;
+            }
+
+            setSelectedValueIndex(newValue);
+        }
+
+        if (key === 'Enter') {
+            window.alert(listData[selectedValueIndex].title);
+        }
+    };
+
+    useEffect(() => {
+        window.addEventListener('keydown', downHandler);
+        // Remove event listeners on cleanup
+        return () => {
+            window.removeEventListener('keydown', downHandler);
+        };
+    }, [downHandler]);
 
     const onChange = (e) => {
         const { value } = e.target;
@@ -69,7 +67,7 @@ export default function DropdownTypeahead({ className = '' }) {
             />
             <ResultsLi
                 listData={listData}
-                selectedValueIndex={2}
+                selectedValueIndex={selectedValueIndex}
             />
         </Fragment>
     );

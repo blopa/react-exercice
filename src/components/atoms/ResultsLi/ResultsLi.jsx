@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
-import styles from './ResultsLi.css';
+import classNames from 'classnames';
+import styles from './ResultsLi.scss';
 
 const propTypes = {
     listData: PropTypes.array.isRequired,
@@ -14,15 +15,18 @@ export default function ResultsLi({
     return (
         <ul>
             {listData.map((data, index) => {
-                let className;
+                const arrow = index === selectedValueIndex ? '=>' : ''; // TODO
 
-                debugger;
-                if (index === selectedValueIndex) {
-                    // TODO use classNames
-                    className = styles.selected;
-                }
-
-                return (<li className={className}>{data.title}</li>);
+                return (
+                    <li
+                        className={classNames({
+                            // TODO this is not working for some reason
+                            [styles.selected]: index === selectedValueIndex,
+                        })}
+                    >
+                        {`${arrow} ${data.title}`}
+                    </li>
+                );
             })}
         </ul>
     );
